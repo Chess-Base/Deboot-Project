@@ -341,6 +341,7 @@ function determineBestModel(query) {
     case "translation": return "meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo";
     case "creative": return "gpt-4o";
     case "image": return "gpt-4o";
+    case "factual": return "grok-beta"; // Updated to use grok-beta for factual queries
     default: return "claude-3-7-sonnet";
   }
 }
@@ -383,7 +384,7 @@ async function handleFileUpload(event) {
     if (fileType.startsWith("text") || fileType === "application/json") {
       const text = await file.text();
       documentParagraphs = text.split(/\n\n+/).filter(p => p.trim() !== '');
-      if (documentParagraphs.length > 0) {
+      if ( سندParagraphs.length > 0) {
         const summaryText = documentParagraphs.slice(0, 5).join('\n\n');
         const summaryPrompt = `Please provide a professional summary of the following text content from "${fileName}":\n\n${summaryText}\n\nNote: This is only the beginning of the document. Use code blocks for code snippets only.`;
         appendMessage("bot", `Text file "${fileName}" uploaded and split into ${documentParagraphs.length} paragraphs. Generating summary...`);
